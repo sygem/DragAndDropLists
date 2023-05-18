@@ -211,6 +211,8 @@ class _DragAndDropListWrapper extends State<DragAndDropListWrapper>
     if (widget.parameters.axis == Axis.horizontal &&
         !widget.parameters.disableScrolling) {
       toReturn = SingleChildScrollView(
+        controller: ScrollController(),
+        primary: false,
         child: Container(
           child: toReturn,
         ),
