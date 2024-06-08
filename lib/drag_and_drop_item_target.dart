@@ -10,19 +10,14 @@ class DragAndDropItemTarget extends StatefulWidget {
   final OnItemDropOnLastTarget onReorderOrAdd;
 
   DragAndDropItemTarget(
-      {required this.child,
-      required this.onReorderOrAdd,
-      required this.parameters,
-      this.parent,
-      Key? key})
+      {required this.child, required this.onReorderOrAdd, required this.parameters, this.parent, Key? key})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _DragAndDropItemTarget();
 }
 
-class _DragAndDropItemTarget extends State<DragAndDropItemTarget>
-    with TickerProviderStateMixin {
+class _DragAndDropItemTarget extends State<DragAndDropItemTarget> with TickerProviderStateMixin {
   DragAndDropItem? _hoveredDraggable;
 
   @override
@@ -33,14 +28,12 @@ class _DragAndDropItemTarget extends State<DragAndDropItemTarget>
           crossAxisAlignment: widget.parameters.verticalAlignment,
           children: <Widget>[
             AnimatedSize(
-              duration: Duration(
-                  milliseconds: widget.parameters.itemSizeAnimationDuration),
+              duration: Duration(milliseconds: widget.parameters.itemSizeAnimationDuration),
               alignment: Alignment.bottomCenter,
               child: _hoveredDraggable != null
                   ? Opacity(
                       opacity: widget.parameters.itemGhostOpacity,
-                      child: widget.parameters.itemGhost ??
-                          _hoveredDraggable!.child,
+                      child: widget.parameters.itemGhost ?? _hoveredDraggable!.child,
                     )
                   : Container(),
             ),
@@ -53,29 +46,28 @@ class _DragAndDropItemTarget extends State<DragAndDropItemTarget>
               if (candidateData.isNotEmpty) {}
               return Container();
             },
-            onWillAccept: (incoming) {
+            onWillAcceptWithDetails: (details) {
               bool accept = true;
               if (widget.parameters.itemTargetOnWillAccept != null)
-                accept =
-                    widget.parameters.itemTargetOnWillAccept!(incoming, widget);
+                accept = widget.parameters.itemTargetOnWillAccept!(details.data, widget);
               if (accept && mounted) {
                 setState(() {
-                  _hoveredDraggable = incoming;
+                  _hoveredDraggable = details.data;
                 });
               }
               return accept;
             },
-            onLeave: (incoming) {
+            onLeave: (data) {
               if (mounted) {
                 setState(() {
                   _hoveredDraggable = null;
                 });
               }
             },
-            onAccept: (incoming) {
+            onAcceptWithDetails: (details) {
               if (mounted) {
                 setState(() {
-                  widget.onReorderOrAdd(incoming, widget.parent!, widget);
+                  widget.onReorderOrAdd(details.data, widget.parent!, widget);
                   _hoveredDraggable = null;
                 });
               }

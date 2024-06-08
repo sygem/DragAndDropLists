@@ -1,5 +1,5 @@
 import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
-import 'package:example/navigation_drawer.dart';
+import 'package:example/custom_navigation_drawer.dart';
 import 'package:flutter/material.dart';
 
 class HorizontalExample extends StatefulWidget {
@@ -36,7 +36,7 @@ class _HorizontalExample extends State<HorizontalExample> {
       appBar: AppBar(
         title: const Text('Horizontal'),
       ),
-      drawer: const NavigationDrawer(),
+      drawer: const CustomNavigationDrawer(),
       body: DragAndDropLists(
         children: List.generate(_lists.length, (index) => _buildList(index)),
         onItemReorder: _onItemReorder,
@@ -75,7 +75,7 @@ class _HorizontalExample extends State<HorizontalExample> {
               padding: const EdgeInsets.all(10),
               child: Text(
                 'Header ${innerList.name}',
-                style: Theme.of(context).primaryTextTheme.headline6,
+                style: Theme.of(context).primaryTextTheme.titleLarge,
               ),
             ),
           ),
@@ -86,14 +86,13 @@ class _HorizontalExample extends State<HorizontalExample> {
           Expanded(
             child: Container(
               decoration: const BoxDecoration(
-                borderRadius:
-                    BorderRadius.vertical(bottom: Radius.circular(7.0)),
+                borderRadius: BorderRadius.vertical(bottom: Radius.circular(7.0)),
                 color: Colors.pink,
               ),
               padding: const EdgeInsets.all(10),
               child: Text(
                 'Footer ${innerList.name}',
-                style: Theme.of(context).primaryTextTheme.headline6,
+                style: Theme.of(context).primaryTextTheme.titleLarge,
               ),
             ),
           ),
@@ -109,8 +108,7 @@ class _HorizontalExample extends State<HorizontalExample> {
         width: 1.5,
         thickness: 1.5,
       ),
-      children: List.generate(innerList.children.length,
-          (index) => _buildItem(innerList.children[index])),
+      children: List.generate(innerList.children.length, (index) => _buildItem(innerList.children[index])),
     );
   }
 
@@ -122,8 +120,7 @@ class _HorizontalExample extends State<HorizontalExample> {
     );
   }
 
-  _onItemReorder(
-      int oldItemIndex, int oldListIndex, int newItemIndex, int newListIndex) {
+  _onItemReorder(int oldItemIndex, int oldListIndex, int newItemIndex, int newListIndex) {
     setState(() {
       var movedItem = _lists[oldListIndex].children.removeAt(oldItemIndex);
       _lists[newListIndex].children.insert(newItemIndex, movedItem);

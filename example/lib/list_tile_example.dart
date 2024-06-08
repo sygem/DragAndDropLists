@@ -1,5 +1,5 @@
 import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
-import 'package:example/navigation_drawer.dart';
+import 'package:example/custom_navigation_drawer.dart';
 import 'package:flutter/material.dart';
 
 class ListTileExample extends StatefulWidget {
@@ -76,7 +76,7 @@ class _ListTileExample extends State<ListTileExample> {
       appBar: AppBar(
         title: const Text('List Tiles'),
       ),
-      drawer: const NavigationDrawer(),
+      drawer: const CustomNavigationDrawer(),
       body: DragAndDropLists(
         children: _contents,
         onItemReorder: _onItemReorder,
@@ -105,9 +105,7 @@ class _ListTileExample extends State<ListTileExample> {
             ),
             Text(
               'Empty List',
-              style: TextStyle(
-                  color: Theme.of(context).textTheme.caption!.color,
-                  fontStyle: FontStyle.italic),
+              style: TextStyle(color: Theme.of(context).textTheme.bodySmall!.color, fontStyle: FontStyle.italic),
             ),
             const Expanded(
               child: Padding(
@@ -133,8 +131,7 @@ class _ListTileExample extends State<ListTileExample> {
     );
   }
 
-  _onItemReorder(
-      int oldItemIndex, int oldListIndex, int newItemIndex, int newListIndex) {
+  _onItemReorder(int oldItemIndex, int oldListIndex, int newItemIndex, int newListIndex) {
     setState(() {
       var movedItem = _contents[oldListIndex].children.removeAt(oldItemIndex);
       _contents[newListIndex].children.insert(newItemIndex, movedItem);

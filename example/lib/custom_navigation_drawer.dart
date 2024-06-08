@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class NavigationDrawer extends StatelessWidget {
-  const NavigationDrawer({Key? key}) : super(key: key);
+class CustomNavigationDrawer extends StatelessWidget {
+  const CustomNavigationDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +29,7 @@ class NavigationDrawer extends StatelessWidget {
             leading: const Icon(Icons.keyboard_arrow_down),
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context)
-                  .pushReplacementNamed('/expansion_tile_example');
+              Navigator.of(context).pushReplacementNamed('/expansion_tile_example');
             },
           ),
           ListTile(
@@ -46,8 +45,7 @@ class NavigationDrawer extends StatelessWidget {
             leading: const Icon(Icons.add),
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context)
-                  .pushReplacementNamed('/drag_into_list_example');
+              Navigator.of(context).pushReplacementNamed('/drag_into_list_example');
             },
           ),
           ListTile(
@@ -71,8 +69,7 @@ class NavigationDrawer extends StatelessWidget {
             leading: const Icon(Icons.drag_handle),
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context)
-                  .pushReplacementNamed('/drag_handle_example');
+              Navigator.of(context).pushReplacementNamed('/drag_handle_example');
             },
           ),
         ],

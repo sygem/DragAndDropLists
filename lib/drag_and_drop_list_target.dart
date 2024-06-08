@@ -15,19 +15,14 @@ class DragAndDropListTarget extends StatefulWidget {
   final double lastListTargetSize;
 
   DragAndDropListTarget(
-      {this.child,
-      required this.parameters,
-      required this.onDropOnLastTarget,
-      this.lastListTargetSize = 110,
-      Key? key})
+      {this.child, required this.parameters, required this.onDropOnLastTarget, this.lastListTargetSize = 110, Key? key})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _DragAndDropListTarget();
 }
 
-class _DragAndDropListTarget extends State<DragAndDropListTarget>
-    with TickerProviderStateMixin {
+class _DragAndDropListTarget extends State<DragAndDropListTarget> with TickerProviderStateMixin {
   DragAndDropListInterface? _hoveredDraggable;
 
   @override
@@ -35,27 +30,19 @@ class _DragAndDropListTarget extends State<DragAndDropListTarget>
     Widget visibleContents = Column(
       children: <Widget>[
         AnimatedSize(
-          duration: Duration(
-              milliseconds: widget.parameters.listSizeAnimationDuration),
-          alignment: widget.parameters.axis == Axis.vertical
-              ? Alignment.bottomCenter
-              : Alignment.centerLeft,
+          duration: Duration(milliseconds: widget.parameters.listSizeAnimationDuration),
+          alignment: widget.parameters.axis == Axis.vertical ? Alignment.bottomCenter : Alignment.centerLeft,
           child: _hoveredDraggable != null
               ? Opacity(
                   opacity: widget.parameters.listGhostOpacity,
-                  child: widget.parameters.listGhost ??
-                      _hoveredDraggable!.generateWidget(widget.parameters),
+                  child: widget.parameters.listGhost ?? _hoveredDraggable!.generateWidget(widget.parameters),
                 )
               : Container(),
         ),
         widget.child ??
             Container(
-              height: widget.parameters.axis == Axis.vertical
-                  ? widget.lastListTargetSize
-                  : null,
-              width: widget.parameters.axis == Axis.horizontal
-                  ? widget.lastListTargetSize
-                  : null,
+              height: widget.parameters.axis == Axis.vertical ? widget.lastListTargetSize : null,
+              width: widget.parameters.axis == Axis.horizontal ? widget.lastListTargetSize : null,
             ),
       ],
     );
@@ -80,30 +67,29 @@ class _DragAndDropListTarget extends State<DragAndDropListTarget>
               if (candidateData.isNotEmpty) {}
               return Container();
             },
-            onWillAccept: (incoming) {
+            onWillAcceptWithDetails: (details) {
               bool accept = true;
               if (widget.parameters.listTargetOnWillAccept != null) {
-                accept =
-                    widget.parameters.listTargetOnWillAccept!(incoming, widget);
+                accept = widget.parameters.listTargetOnWillAccept!(details.data, widget);
               }
               if (accept && mounted) {
                 setState(() {
-                  _hoveredDraggable = incoming;
+                  _hoveredDraggable = details.data;
                 });
               }
               return accept;
             },
-            onLeave: (incoming) {
+            onLeave: (data) {
               if (mounted) {
                 setState(() {
                   _hoveredDraggable = null;
                 });
               }
             },
-            onAccept: (incoming) {
+            onAcceptWithDetails: (details) {
               if (mounted) {
                 setState(() {
-                  widget.onDropOnLastTarget(incoming, widget);
+                  widget.onDropOnLastTarget(details.data, widget);
                   _hoveredDraggable = null;
                 });
               }
